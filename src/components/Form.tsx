@@ -1,27 +1,36 @@
 import React, { useState } from 'react'
+import { Sub } from './types'
 
-const Form = () => {
+interface FormState {
+  inputValues: Sub
+}
 
-  const [inputValues, setInputValues] = useState({
+interface FormProps {
+  onNewSub: (newSub: Sub) => void
+}
+
+const Form = ({onNewSub}: FormProps) => {
+  const [inputValues, setInputValues] = useState<FormState["inputValues"]>({
     nick: '',
     subMonths: 0,
     avatar: '',
     description: ''
   })
   
-  const handleSubmit = () => {
-
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault()
+    onNewSub(inputValues)
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // para poder ver el tipo de evento hacemos la función dentro del elemento
+  // del formulario y al hacer hover sobre event nos dara el tipo de typescript
+  // que posee.
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInputValues({
       ...inputValues,
       [event.target.name]: event.target.value
     })
   }
-
-  // TODO: RETOMAR 45:36
-  // https://www.youtube.com/watch?v=15VKbky2gB4&ab_channel=midudev
 
   return(
     <div>
@@ -29,7 +38,7 @@ const Form = () => {
         <input onChange = {handleChange} value={inputValues.nick} type="text" name='nick' placeholder="nick"/>
         <input onChange = {handleChange} value={inputValues.subMonths} type="number" name='subMonth' placeholder="subMonth"/>
         <input onChange = {handleChange} value={inputValues.avatar} type="text" name='avatar' placeholder="avatar"/>
-        <input onChange = {handleChange} value={inputValues.description} type="text" name='description' placeholder="description"/>
+        <textarea onChange = {handleChange} value={inputValues.description} name='description' placeholder="description"/>
         <button>Save new sub!</button>
       </form>
     </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Form from './components/Form';
 import List from './components/List';
-import Sub from './interfaces/iSub';
+import {Sub} from './components/types';
 
 interface AppState {
   subs: Array<Sub>
@@ -12,13 +12,13 @@ interface AppState {
 const INITIAL_STATE = [
   {
     nick: 'suscriptor',
-    subMounth: 3,
+    subMonths: 3,
     avatar: 'https://i.pravatar.cc/150?u=sub',
     description: "Hace de moderador a veces",
   },
   {
     nick: 'suscriptor2',
-    subMounth: 6,
+    subMonths: 6,
     avatar: 'https://i.pravatar.cc/150?u=sub2',
   }
 ]
@@ -36,11 +36,15 @@ function App() {
     setSubs(INITIAL_STATE);
   }, [])
 
+  const handleNewSub = (newSub: Sub): void =>{
+    setSubs(subs => [...subs, newSub])
+  }
+
   return (
     <div className="App">
       <h1>Fer Subs</h1>
       <List subs={subs}/>
-      <Form />
+      <Form onNewSub={handleNewSub}/>
     </div>
   );
 }

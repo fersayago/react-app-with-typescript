@@ -5,7 +5,10 @@ interface Props {
   subs: Array<Sub>
 }
 
-const List = ({subs}: Props) => {
+// para desestructurar directamente se puede hacer de la siguiente manera:
+// const List = ({subs}: Props) => {
+const List = (props: Props) => {
+  const {subs} = props;
   return (
     <ul>
       {
@@ -22,5 +25,10 @@ const List = ({subs}: Props) => {
     </ul>
   )
 }
+
+// para poder hacer que el componente acepte children debemos convertirlo
+// en un arrow function y luego declarar el componente como funcional de la
+// siguiente manera:
+// const List.FunctionalComponent<Props> = (props: Props) => {}
 
 export default List;

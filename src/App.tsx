@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import Form from './components/Form';
 import List from './components/List';
-import Sub from './interfaces/iSub'
+import Sub from './interfaces/iSub';
 
 interface AppState {
   subs: Array<Sub>
@@ -39,6 +40,7 @@ function App() {
     <div className="App">
       <h1>Fer Subs</h1>
       <List subs={subs}/>
+      <Form />
     </div>
   );
 }

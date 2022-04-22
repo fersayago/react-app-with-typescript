@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Form from './components/Form';
 import List from './components/List';
@@ -31,6 +31,9 @@ function App() {
   // otra manera de indicar un array de Sub es <Sub[]>
   const [subs, setSubs] = useState<AppState["subs"]>([]);
   const [newSubsNumber, setNewSubsNumber] = useState<AppState['newSubsNumber']>(0)
+  // indicamos en el useRef que vamos a usar un elemento div y lo comenzamos nulo
+  const divRef = useRef<HTMLDivElement>(null)
+
 
   useEffect(() => {
     setSubs(INITIAL_STATE);
@@ -41,7 +44,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" ref={divRef}>
       <h1>Fer Subs</h1>
       <List subs={subs}/>
       <Form onNewSub={handleNewSub}/>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import { Sub } from './types'
 
 interface FormState {
@@ -21,8 +21,9 @@ type FormReducerAction = {
   payload: {
     inputName: string,
     inputValue: string
-    // TODO: CONTINUAR 1:16 con el useReducer
   }
+} | {
+  type: "clear";
 }
 
 const formReducer = (state: FormState["inputValues"], action: FormReducerAction) => {
@@ -39,7 +40,7 @@ const formReducer = (state: FormState["inputValues"], action: FormReducerAction)
 }
 
 const Form = ({onNewSub}: FormProps) => {
-  const [inputValues, setInputValues] = useState<FormState["inputValues"]>(INITIAL_STATE)
+  //const [inputValues, setInputValues] = useState<FormState["inputValues"]>(INITIAL_STATE)
 
   const[inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE);
   
@@ -53,14 +54,22 @@ const Form = ({onNewSub}: FormProps) => {
   // del formulario y al hacer hover sobre event nos dara el tipo de typescript
   // que posee.
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setInputValues({
-      ...inputValues,
-      [event.target.name]: event.target.value
+
+    const {name, value} =event.target
+
+    dispatch({
+      type: "change_value",
+      payload: {
+        inputName: name,
+        inputValue: value
+      }
     })
   }
 
   const handleClear = () => {
-    setInputValues(INITIAL_STATE)
+    dispatch({
+      type: "clear"
+    })
   }
 
   // TODO: Arreglar para el cambio de subMonths

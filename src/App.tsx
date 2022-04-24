@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Form from './components/Form';
@@ -24,8 +25,13 @@ function App() {
   // hay que corregir el fetch ya que typescript no funciona en runtime sino que
   // valida en estatico o buildtime por lo que se debe
   useEffect(() => {
-    const fetchSubs = (): Promise<SubsResponseFromApi> => {
-      return fetch('http://localhosto:3001/subs').then(res => res.json())
+
+    //const fetchSubs = (): Promise<SubsResponseFromApi> => {
+    // en vez de esto, implementamos la manera de axios de especificar que tipo de datos va a recibir el get para evitar el mapFromApiToSubs
+    const fetchSubs = () => {
+      return axios
+      .get<SubsResponseFromApi>('http://localhosto:3001/subs')
+      .then(response => response.data)
     }
 
     const mapFromApiToSubs = (apiResponse: SubsResponseFromApi): Array<Sub> => {
